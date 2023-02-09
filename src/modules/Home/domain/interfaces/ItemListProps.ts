@@ -1,6 +1,4 @@
-import { People } from './IPeople';
-
 export interface IItemListProps {
-  peoples: People[];
   search: string;
+  openModal: (e: HTMLElement | null) => void;
 }
