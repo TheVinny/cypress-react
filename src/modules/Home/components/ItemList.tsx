@@ -1,10 +1,7 @@
-import { ItemListProps } from '../domain/interfaces/ItemListProps';
+import { IItemListProps } from '../domain/interfaces/ItemListProps';
+import { Item } from './Item';
 
-export function ItemList({ peoples, search }: ItemListProps) {
-  function sortItens(index: number) {
-    return index % 2 == 0 ? 'list__itens' : 'list__itens-sort';
-  }
-
+export function ItemList({ peoples, search }: IItemListProps) {
   return (
     <>
       {search.length
@@ -12,16 +9,17 @@ export function ItemList({ peoples, search }: ItemListProps) {
             .filter(item => item.fullname.includes(search.trim()))
             .map((itens, index) => {
               return (
-                <div className={sortItens(index)} key={index}>
-                  {itens.fullname}
-                </div>
+                <Item
+                  index={index}
+                  itens={itens}
+                  key={index}
+                  peoples={peoples}
+                />
               );
             })
         : peoples.map((itens, index) => {
             return (
-              <div className={sortItens(index)} key={index}>
-                {itens.fullname}
-              </div>
+              <Item index={index} itens={itens} key={index} peoples={peoples} />
             );
           })}
     </>
