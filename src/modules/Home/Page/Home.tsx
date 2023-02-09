@@ -1,32 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ItemList } from '../components/ItemList';
 import { Modal } from '../components/Modal';
-import { People } from '../domain/interfaces/IPeople';
+import { useContextApi } from '../hooks/useContextApi';
 import { GetAllPeoples } from '../Service/GetAllPeoples';
 import '../Style.scss';
+import 'react-toastify/dist/ReactToastify.css';
 
 export function Home() {
   const [search, setSearch] = useState<string>('');
-  const [people, setPeople] = useState<People[]>([
-    { age: 18, city: '', email: '', fullname: 'Marco' },
-  ]);
   const [modal, setModal] = useState<boolean>(false);
-
-  useEffect(() => {
-    setPeople(GetAllPeoples());
-  }, []);
+  const { setPeoples, people, setPeople } = useContextApi();
 
   function openModal(target: HTMLElement | null) {
-    if (!target) setModal(!modal);
+    if (!target) {
+      setModal(!modal);
+      return null;
+    }
 
-    const cNames = ['modal', 'modal__open'];
+    const cNames = ['modal', 'modal__open', 'viewItem'];
 
     const allow = cNames.find(i => i == target?.className);
 
     if (!allow) return null;
 
     setModal(!modal);
+    setPeople(undefined);
   }
+
+  useEffect(() => {
+    setPeoples(GetAllPeoples());
+  }, []);
 
   return (
     <div className="home">
@@ -34,7 +37,7 @@ export function Home() {
         <input
           className="search__input"
           type="text"
-          placeholder="Search"
+          placeholder="Search from email"
           onChange={({ target }) => setSearch(target.value)}
         />
         <button
@@ -46,11 +49,9 @@ export function Home() {
         </button>
       </div>
       <div className="list__container">
-        <ItemList peoples={people} search={search} />
+        <ItemList search={search} openModal={openModal} />
       </div>
-      {modal && (
-        <Modal openModal={openModal} setPeoples={setPeople} peoples={people} />
-      )}
+      {modal && <Modal openModal={openModal} item={people} />}
     </div>
   );
 }
