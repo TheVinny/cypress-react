@@ -1,7 +1,10 @@
 import { IItemListProps } from '../domain/interfaces/ItemListProps';
+import { useContextApi } from '../hooks/useContextApi';
 import { Item } from './Item';
 
-export function ItemList({ peoples, search }: IItemListProps) {
+export function ItemList({ search, openModal }: IItemListProps) {
+  const { peoples } = useContextApi();
+
   return (
     <>
       {search.length
@@ -11,15 +14,20 @@ export function ItemList({ peoples, search }: IItemListProps) {
               return (
                 <Item
                   index={index}
-                  itens={itens}
+                  item={itens}
                   key={index}
-                  peoples={peoples}
+                  openModal={openModal}
                 />
               );
             })
         : peoples.map((itens, index) => {
             return (
-              <Item index={index} itens={itens} key={index} peoples={peoples} />
+              <Item
+                index={index}
+                item={itens}
+                key={index}
+                openModal={openModal}
+              />
             );
           })}
     </>
