@@ -1,5 +1,16 @@
+*{
+  padding: 0;
+  margin: 0;
+  border: none;
+  outline: none;
+}
+
+html{
+  height: 100vh;
+}
+
 .home{
-  height: 98vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
 }
