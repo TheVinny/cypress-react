@@ -9,7 +9,7 @@ export function ItemList({ search, openModal }: IItemListProps) {
     <>
       {search.length
         ? peoples
-            .filter(item => item.fullname.includes(search.trim()))
+            .filter(item => item.email.includes(search.trim()))
             .map((itens, index) => {
               return (
                 <Item
