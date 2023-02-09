@@ -1,20 +1,42 @@
 import { IItem } from '../domain/interfaces/IItem';
 import { AiOutlineDelete, AiOutlineUnorderedList } from 'react-icons/ai';
-import { DeletePeople } from '../Service/DeletePeople';
+import { useContextApi } from '../hooks/useContextApi';
+import { savePeoples } from '../Service/SavePeoples';
 
-export function Item({ index, itens, peoples }: IItem) {
-  function sortItens(index: number) {
-    return index % 2 == 0 ? 'list__itens' : 'list__itens-sort';
+export function Item({ index, item, openModal }: IItem) {
+  const { peoples, setPeoples, setPeople } = useContextApi();
+
+  function DeletePeople() {
+    peoples.splice(index, 1);
+
+    setPeoples([...peoples]);
+
+    savePeoples([...peoples]);
+  }
+
+  function OpenModalUpdate(target: HTMLElement | null) {
+    openModal(target);
+
+    setPeople(item);
+
+    savePeoples([...peoples]);
   }
 
   return (
-    <div className={sortItens(index)} key={index}>
-      <p>{itens.fullname}</p>
+    <div className="list__itens" key={index}>
+      <div className="infos">
+        <p>{item.fullname}</p>
+        <span>{item.email}</span>
+      </div>
       <div className="container__buttons-item">
-        <button type="button" onClick={() => console.log('teste')}>
+        <button type="button" onClick={() => DeletePeople()}>
           <AiOutlineDelete />
         </button>
-        <button type="button">
+        <button
+          type="button"
+          className="viewItem"
+          onClick={({ target }) => OpenModalUpdate(target as HTMLElement)}
+        >
           <AiOutlineUnorderedList />
         </button>
       </div>
