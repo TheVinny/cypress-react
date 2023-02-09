@@ -2,6 +2,6 @@ import { People } from './IPeople';
 
 export interface IItem {
   index: number;
-  itens: People;
-  peoples: People[];
+  item: People;
+  openModal: (e: HTMLElement | null) => void;
 }
