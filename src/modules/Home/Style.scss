@@ -4,12 +4,15 @@
   align-items: center;
 }
 
-@mixin setButtons($var) {
-  color: $var;
+@mixin setButtons($color, $hover) {
+  color: $color;
   background-color: transparent;
   border: none;
   font-size: 20px;
   cursor: pointer;
+  &:hover{
+    color: $hover;
+  }
 }
 
 .home {
@@ -33,17 +36,20 @@
 
 .list{
   &__container{
-    border: 1px solid black;
     width: 340px;
     height: 70%;
     margin-top: 15px;
     padding: 10px;
     button {
       &:nth-child(1){
-        @include setButtons(red);
+        @include setButtons(red, rgb(193, 98, 98));
       }
       &:nth-child(2) {
-        @include setButtons(rgb(0, 102, 255));
+        margin-left: 20px;
+        @include setButtons(rgb(0, 102, 255), rgb(100, 151, 227) );
+      }
+      svg{
+        pointer-events: none;
       }
     }
   }
@@ -52,26 +58,17 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: orange;
-    color: white;
+    box-shadow: 0px 2px 5px 2px rgba(112, 112, 101, 0.76);
     border-radius: 8px;
     height: 40px;
-    padding: 10px;
+    padding: 20px;
     margin-top: 10px;
-  }
-    &__itens-sort {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: rgb(154, 220, 62);
-      color: white;
-      border-radius: 8px;
-      height: 40px;
-      padding: 10px;
-      margin-top: 10px;
 
+    &:nth-child(even){
+      background-color: rgb(157, 183, 120);
     }
 
+  }
 }
 
 
@@ -141,7 +138,7 @@
     grid-template-columns: 1fr 1fr 1fr;
     grid-auto-flow: dense;
     gap: 10px;
-    padding: 10px;
+    padding: 20px;
     .input-box{
       span{
         margin-top: 5px;
